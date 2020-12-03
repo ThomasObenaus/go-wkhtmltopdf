@@ -300,12 +300,15 @@ func (pdfg *PDFGenerator) run() error {
 		cmd.Stderr = errBuf
 	}
 
-	// set output to the desired writer or the internal buffer
+	//cmd.Stderr = pdfg.outWriter
+	cmd.Stdout = &pdfg.outbuf
+
+	/*// set output to the desired writer or the internal buffer
 	if pdfg.outWriter != nil {
 		cmd.Stdout = pdfg.outWriter
 	} else {
 		cmd.Stdout = &pdfg.outbuf
-	}
+	}*/
 
 	// if there is a pageReader page (from Stdin) we set Stdin to that reader
 	for _, page := range pdfg.pages {
@@ -327,6 +330,8 @@ func (pdfg *PDFGenerator) run() error {
 		}
 		return err
 	}
+
+	fmt.Printf("##########ASAAA############## %s\n",pdfg.outbuf.String())
 	return nil
 }
 
